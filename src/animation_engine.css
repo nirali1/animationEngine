@@ -1,0 +1,12 @@
+body {
+  font-family: Monaco, Consolas, "Lucida Console", monospace;
+  color: blue;
+  }
+
+.nodisplay {
+  display: none;
+  }
+.center{
+	text-align: center;
+}
+
