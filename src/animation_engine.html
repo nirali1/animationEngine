@@ -7,6 +7,12 @@
 		<script src="../lib/jquery-3.1.0.js"></script>
 		<script src="../jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 		<script src="../typed.js/js/typed.js"></script>
+		<script src="../ccapture/build/CCapture.all.min.js"></script>
+		<!-- Include Whammy if you want to export WebM -->
+		<script src="../ccapture/src/Whammy.js"></script>
+		<!-- Include tar.js if you want to export PNG or JPEG -->
+		<script src="../ccapture/src/tar.js"></script>
+
 		<script src="animation_engine.js"></script>
 		
 </head>
@@ -16,11 +22,14 @@
 </div>
 <br/>
 <button id="animate">Animate</button>
-   <!-- <br/>
-	 <canvas id="myCanvas" width="640" height="100">
+<button id="save">Save</button>
+
+   
+ <br/>
+	 <canvas id="myCanvas" width="640" height="400">
 			    This text is displayed if your browser does not support HTML5 Canvas.
 	 </canvas>
-<br/> -->
+<br/>
 <div id='element' class="center">
 	
 </div>
