@@ -138,7 +138,7 @@ $('input:radio[name="format"]').change(function(){
 
     console.log($(this).val());
     format = $(this).val();
-    capturer = new CCapture( { format: format});
+    capturer = new CCapture( { format: format, framerate: 60});
 
   });
 });
