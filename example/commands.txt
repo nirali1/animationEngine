@@ -1,0 +1,2 @@
+ffmoeg
+ffmpeg -r 60 -f image2 -s 1280x720 -i ./final1/%07d.jpg -vcodec libx264 -crf 18  -pix_fmt yuv420p test.mp4 
