@@ -1,6 +1,6 @@
 $(document).ready(function(){
   // var capturer = new CCapture( { format: 'jpg'});
-  var capturer = new CCapture( { format: 'webm'});
+  var capturer = new CCapture( { format: 'jpg', framerate: 35});
 
   function interpret(input) {
     var lines = input.split("$$");
