@@ -1,12 +1,10 @@
 body {
   font-family: Monaco, Consolas, "Lucida Console", monospace;
-  color: blue;
+  color: black;
   }
 
 .nodisplay {
   display: none;
   }
-.center{
-	text-align: center;
-}
+
 

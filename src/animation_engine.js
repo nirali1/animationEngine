@@ -17,24 +17,21 @@ $(document).ready(function(){
     return textAndImage;
   }
   
-//////////////////////////// Using jquery Animation/////////////////////////////////////////////
-  function createElements(key, line){
-    
-      var $div_child = $("<div>", {id: "div_"+key, class: "line"});
-      $("#element").append($div_child);
-
-      $div_child.text(line).hide();
-  }
-
-  function animate(collection){
-    collection.eq(0).fadeIn(1000, function(){
-            (collection=collection.slice(1)).length 
-            && animate(collection)
-        });
-  }
 
 //////////////////////////// Drawing on canvas/////////////////////////////////////////////
+/*
+Steps:
+0. On The page, enter the text and image path in format : <group><text>Hadoop<image>../resources/Architect_Female_Green.png
+Select the format between FFMPEG and WEBM. That will create the Capture Object
 
+This method:
+1. Clear and fill the canvas 1280x720 with white color (sets the background in videos to white)
+2. Start the capturer
+3. Draw Text at x=10, y=150 (hardcoded for now)
+4. Draw image at x=10, y=20 (hardcoded for now)
+
+The code is hardcoded to print only 1 GroupObject  one after the other
+*/
 
   function animateOnCanvas(textAndImageData){
     console.log(textAndImageData);
@@ -48,9 +45,11 @@ $(document).ready(function(){
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // Position of text in canvas
     var textStartX = 10,
         textStartY = 150;
 
+    // Position of image in canvas
     var imageStartX = 10,
         imageStartY = 20,
         imageWidth = 100,
@@ -60,62 +59,84 @@ $(document).ready(function(){
     drawImage(textAndImageData.imagePath, canvas, imageStartX, imageStartY, imageWidth, imageHeight);
 
   }
-  // drawImage
+
   function drawImage(imgPath, canvas, xPos, yPos,
-                     imgWidth, imgHeight) {
+                     imgWidth, imgHeight){
     var ctx = canvas.getContext("2d");
 
     var img = new Image();
     img.src = imgPath;
+    img._x = xPos;
+    img._y = yPos;
+    var times = 1;
+    var i = 0;
 
-    //schedule animation for the next available frame
-    requestAnimationFrame(
-        //wrap animate in a anonymous function to 
-        //match the callback signature 
-        function(timestamp){
-          ctx.drawImage(img, xPos, yPos, imgWidth, imgHeight);
-          
-        }
-    );
-    capturer.capture(canvas);
-  
-}
+    (function loop() {
+
+      draw(ctx, img, imgWidth, imgHeight);   
+      
+      while(i < times){  
+        requestAnimationFrame(loop);
+        i+=1;
+      }
+      capturer.capture(canvas);
+
+    })();
+
+  }
+
+  function draw(ctx, img, imgWidth, imgHeight){
+    ctx.drawImage(img, img._x, img._y, imgWidth, imgHeight);
+
+  }
+
   
 // draw text
 function drawText(txt, canvas, x, y){
-  
+
+  // get the canvas to to 2D drawing on 
   var ctx = canvas.getContext("2d");
 
+  // set font properties and letter style
   ctx.font = "20px Monaco, Consolas, Lucida Console, monospace"; 
   ctx.lineWidth = 1 ; ctx.lineJoin = "round"; ctx.globalAlpha = 1.0;
   ctx.strokeStyle  = "blue";
  
-
-  var speed = 4,
+  // set the speed of the animation
+  var speed = 8,
       dashLen = 200, dashOffset = 200, 
       i = 0;
 
+  // method to be called by requestAnimation
   (function loop() {
   
     ctx.fillStyle = "blue";
-    ctx.setLineDash([dashLen - dashOffset, dashOffset - speed]); // create a long dash mask
-    dashOffset -= speed;                                         // reduce dash length
-    ctx.strokeText(txt[i], x, y);                              // stroke letter
+    // create a long dash mask
+    ctx.setLineDash([dashLen - dashOffset, dashOffset - speed]); 
+    // reduce dash length
+    dashOffset -= speed;                                       
+    // stroke letter - draw the letter  
+    ctx.strokeText(txt[i], x, y);                              
 
+    // animate
     if (dashOffset > 0) {
-       requestAnimationFrame(loop);                               // animate
+       requestAnimationFrame(loop);                               
       
     }
     else {
-      ctx.fillText(txt[i], x, y);                               // fill final letter
-      dashOffset = dashLen;                                      // prep next char
-      x += ctx.measureText(txt[i++]).width + ctx.lineWidth ;    // update x for next character
+      // fill final letter
+      ctx.fillText(txt[i], x, y);  
+      // prep next char                             
+      dashOffset = dashLen;      
+      // update x position for next character                                
+      x += ctx.measureText(txt[i++]).width + ctx.lineWidth ;    
      
       if (i < txt.length) {
         requestAnimationFrame(loop);
 
       }
     }
+    // capture canvas
     capturer.capture(canvas);
 
   })();
@@ -138,7 +159,7 @@ $('input:radio[name="format"]').change(function(){
 
     console.log($(this).val());
     format = $(this).val();
-    capturer = new CCapture( { format: format, framerate: 60});
+    capturer = new CCapture( { format: format, framerate: 20});
 
   });
 });

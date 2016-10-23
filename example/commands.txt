@@ -1,2 +1,2 @@
 ffmoeg
-ffmpeg -r 60 -f image2 -s 1280x720 -i ./final1/%07d.jpg -vcodec libx264 -crf 18  -pix_fmt yuv420p test.mp4 
+ffmpeg -r 20 -f image2 -s 1280x720 -i ./Today1280x720FR20Speed8/%07d.jpg -vcodec libx264 -crf 18  -pix_fmt yuv420p Today1280x720FR20Speed8.mp4
