@@ -1,6 +1,6 @@
 $(document).ready(function(){
   // var capturer = new CCapture( { format: 'jpg'});
-  var capturer = new CCapture( { format: 'jpg', framerate: 60});
+  var capturer = new CCapture( { format: 'jpg', framerate: 20});
 
   function interpret(input) {
     var lines = input.split("$$");
@@ -39,16 +39,16 @@ $(document).ready(function(){
 
   function draw(txt, canvas, capturer){
     
-    var ctx = canvas.getContext("2d"), speed = 4,
+    var ctx = canvas.getContext("2d"), speed = 8,
      dashLen = 200, dashOffset = 200, 
      x = 30, i = 0;
 
     ctx.font = "20px Monaco, Consolas, Lucida Console, monospace"; 
     ctx.lineWidth = 1 ; ctx.lineJoin = "round"; ctx.globalAlpha = 1.0;
     ctx.strokeStyle = ctx.fillStyle = "blue";
-    ctx.clearRect(0,0, 640, 400);
+    ctx.clearRect(0,0, canvas.width, canvas.height);
     ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, 640, 400);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     (function loop() {
      // ctx.clearRect(x, 0, 60, 150);
